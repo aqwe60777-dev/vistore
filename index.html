@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>VI Store — Apple техника</title>
+
+    <!-- ВАЖНО для телефона -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: #f5f5f7;
+            color: #1d1d1f;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(180deg, #111, #1d1d1f);
+            color: #fff;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        nav a {
+            color: #d2d2d7;
+            margin-left: 18px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* ===== SECTION ===== */
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 20px;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 34px;
+            margin-bottom: 50px;
+        }
+
+        /* ===== PRODUCTS ===== */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+        }
+
+        .product {
+            background: #fff;
+            border-radius: 26px;
+            padding: 36px 26px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 0.9s ease forwards;
+        }
+
+        .product:nth-child(1) { animation-delay: 0.2s; }
+        .product:nth-child(2) { animation-delay: 0.4s; }
+        .product:nth-child(3) { animation-delay: 0.6s; }
+
+        .product img {
+            width: 100%;
+            max-width: 170px;
+            margin: 0 auto 24px;
+            display: block;
+        }
+
+        .product h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .product p {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-bottom: 22px;
+        }
+
+        .product span {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* ===== ANIMATION ===== */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .section {
+                padding: 50px 16px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1d1d1f;
+            color: #d2d2d7;
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>VI Store</h1>
+    <nav>
+        <a href="#">Товары</a>
+        <a href="#">О нас</a>
+        <a href="#">Контакты</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2>Популярные товары</h2>
+
+    <div class="products">
+        <div class="product">
+            <img src="images/iphone.png" alt="iPhone 15 Pro">
+            <h3>iPhone 15 Pro</h3>
+            <p>Титановый корпус. A17 Pro.</p>
+            <span>от 129 990 ₽</span>
+        </div>
+
+        <div class="product">
+            <img src="images/macbook.png" alt="MacBook Air M2">
+            <h3>MacBook Air M2</h3>
+            <p>Лёгкий. Мощный. Бесшумный.</p>
+            <span>от 149 990 ₽</span>
+        </div>
+
+        <div class="product">
+            <img src="images/watch.png" alt="Apple Watch Ultra">
+            <h3>Apple Watch Ultra</h3>
+            <p>Для спорта и приключений.</p>
+            <span>от 99 990 ₽</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2026 VI Store · Apple Premium Reseller
+</footer>
+
+</body>
+</html>
