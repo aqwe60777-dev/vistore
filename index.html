@@ -135,6 +135,52 @@
       background:#ddd;
       color:#000;
     }
+    .cart-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.cart-content {
+  background: #fff;
+  width: 90%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 24px;
+}
+
+#cartItems {
+  margin: 20px 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.cart-item img {
+  width: 60px;
+  margin-right: 12px;
+}
+
+.cart-item button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
   </style>
 </head>
 
@@ -215,35 +261,79 @@
   function openCart() {
     alert("В корзине товаров: " + cart);
   }
-  <script>
-  let cart = 0;
+  <!-- CART MODAL -->
+<div class="cart-modal" id="cartModal">
+  <div class="cart-content">
+    <h2>Корзина</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-footer">
+      <button class="btn close" onclick="closeCart()">Закрыть</button>
+      <button class="btn buy">Оформить заказ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+
+  const cartCount = document.getElementById('cartCount');
+  const cartModal = document.getElementById('cartModal');
+  const cartItems = document.getElementById('cartItems');
 
   function buy(name, img) {
-    cart++;
-    document.getElementById('cartCount').innerText = cart;
+    cart.push({ name, img });
+    updateCart();
     document.getElementById('modalTitle').innerText = name;
     document.getElementById('modalImg').src = img;
     document.getElementById('modal').style.display = 'flex';
+  }
+
+  function updateCart() {
+    cartCount.innerText = cart.length;
+    cartItems.innerHTML = '';
+
+    cart.forEach((item, index) => {
+      cartItems.innerHTML += `
+        <div class="cart-item">
+          <img src="${item.img}">
+          <span>${item.name}</span>
+          <button onclick="removeFromCart(${index})">✕</button>
+        </div>
+      `;
+    });
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+  function openCart() {
+    cartModal.style.display = 'flex';
+  }
+
+  function closeCart() {
+    cartModal.style.display = 'none';
   }
 
   function closeModal() {
     document.getElementById('modal').style.display = 'none';
   }
 
-  function openCart() {
-    alert("В корзине товаров: " + cart);
-  }
-
-  // 🔴 ВАЖНО — делаем функции глобальными
-  window.openCart = openCart;
+  // делаем функции глобальными
   window.buy = buy;
+  window.openCart = openCart;
+  window.closeCart = closeCart;
   window.closeModal = closeModal;
-
 </script>
+
 
 
 
 </body>
 </html>
+
 
 
