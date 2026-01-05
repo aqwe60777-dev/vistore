@@ -1,400 +1,302 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>VI Store — Apple техника</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>VI Store — Apple техника</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- FAVICON -->
-  <link rel="icon" href="/favicon-final.ico?v=5">
-  <link rel="shortcut icon" href="/favicon-final.ico?v=5">
+    <!-- favicon -->
+    <link rel="icon" href="/favicon-final.ico?v=5">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
 
-    body {
-      background: #f5f5f7;
-      color: #1d1d1f;
-    }
+        body {
+            background: #f5f5f7;
+            color: #1d1d1f;
+        }
 
-    header {
-      background: linear-gradient(180deg, #111, #1d1d1f);
-      color: #fff;
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        header {
+            background: linear-gradient(180deg, #111, #1d1d1f);
+            color: #fff;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    header h1 {
-      font-size: 22px;
-    }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
 
-    nav a, .cart {
-      color: #d2d2d7;
-      margin-left: 18px;
-      text-decoration: none;
-      font-size: 14px;
-      cursor: pointer;
-    }
+        nav a {
+            color: #d2d2d7;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-    .section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 70px 20px;
-    }
+        .cart-btn {
+            position: relative;
+            cursor: pointer;
+        }
 
-    .section h2 {
-      text-align: center;
-      font-size: 34px;
-      margin-bottom: 50px;
-    }
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: #fff;
+            color: #000;
+            font-size: 12px;
+            border-radius: 50%;
+            padding: 2px 6px;
+        }
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 32px;
-    }
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 20px;
+        }
 
-    .product {
-      background: #fff;
-      border-radius: 26px;
-      padding: 36px 26px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeUp 0.9s ease forwards;
-    }
+        .section h2 {
+            text-align: center;
+            font-size: 34px;
+            margin-bottom: 50px;
+        }
 
-    .product img {
-      width: 100%;
-      max-width: 170px;
-      margin-bottom: 24px;
-    }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+        }
 
-    .product h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
+        .product {
+            background: #fff;
+            border-radius: 26px;
+            padding: 36px 26px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeUp 0.8s ease forwards;
+        }
 
-    .product p {
-      font-size: 14px;
-      color: #6e6e73;
-      margin-bottom: 22px;
-    }
+        .product img {
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 24px;
+            display: block;
+        }
 
-    .product span {
-      font-size: 18px;
-      font-weight: 600;
-      display: block;
-      margin-bottom: 16px;
-    }
+        .product h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
 
-    .btn {
-      background: #000;
-      color: #fff;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+        .product p {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-bottom: 22px;
+        }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .product span {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
 
-    footer {
-      background: #1d1d1f;
-      color: #d2d2d7;
-      text-align: center;
-      padding: 24px;
-      font-size: 13px;
-    }
+        .product button {
+            margin-top: auto;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 22px;
+            cursor: pointer;
+            transition: transform .2s ease, background .2s ease;
+        }
 
-    /* ===== MODALS ===== */
+        .product button:hover {
+            transform: scale(1.05);
+            background: #1d1d1f;
+        }
 
-    .modal, .cart-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .modal-content, .cart-content {
-      background: #fff;
-      border-radius: 20px;
-      padding: 24px;
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
-    }
+        footer {
+            background: #1d1d1f;
+            color: #d2d2d7;
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+        }
 
-    .cart-item {
-      display: flex;
-      align-items: center;
-      margin: 12px 0;
-    }
+        /* ===== MODALS ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
 
-    .cart-item img {
-      width: 50px;
-      margin-right: 12px;
-    }
+        .modal-content {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            width: 90%;
+            max-width: 420px;
+        }
 
-    .cart-item button {
-      margin-left: auto;
-      background: none;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-    }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+        }
 
-    .cart-footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-    .product {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .cart-item img {
+            width: 50px;
+            margin-right: 12px;
+        }
 
-.product button {
-    margin-top: auto;
-}
-.product {
-    background: #fff;
-    border-radius: 26px;
-    padding: 36px 26px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        .cart-item button {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    opacity: 0;
-    transform: translateY(30px) scale(0.98);
-    animation: productFade 0.8s ease forwards;
-}
-
-.product:nth-child(1) { animation-delay: 0.1s; }
-.product:nth-child(2) { animation-delay: 0.25s; }
-.product:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes productFade {
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.product button {
-    margin-top: auto;
-}
-.product {
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-.product:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
-}
-    .btn {
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 22px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-}
-
-.btn:active {
-    transform: scale(0.97);
-}
-.product::before,
-.product::after,
-.product hr,
-.product img {
-    border: none !important;
-}
-
-.product::before {
-    display: none !important;
-}
-    .product img {
-    margin-top: 12px;
-}
-  </style>
+        .cart-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-  <h1>VI Store</h1>
-  <nav>
-    <span class="cart" id="cartBtn">
-      🛒 Корзина: <b id="cartCount">0</b>
-    </span>
-  </nav>
+    <h1>VI Store</h1>
+    <nav>
+        <a>Товары</a>
+        <a>О нас</a>
+        <a>Контакты</a>
+        <div class="cart-btn" onclick="openCart()">🛒
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </nav>
 </header>
 
 <section class="section">
-  <h2>Популярные товары</h2>
+    <h2>Популярные товары</h2>
 
-  <div class="products">
-    <div class="product">
-      <img src="iphone.jpg">
-      <h3>iPhone 15 Pro</h3>
-      <p>Титановый корпус. A17 Pro.</p>
-      <span>от 129 990 ₽</span>
-      <button class="btn" data-name="iPhone 15 Pro" data-img="iphone.jpg">Купить</button>
-    </div>
+    <div class="products">
+        <div class="product">
+            <img src="iphone.jpg">
+            <h3>iPhone 15 Pro</h3>
+            <p>Титановый корпус. A17 Pro.</p>
+            <span>от 129 990 ₽</span>
+            <button onclick="addToCart('iPhone 15 Pro','iphone.jpg')">Купить</button>
+        </div>
 
-    <div class="product">
-      <img src="macbook.jpg">
-      <h3>MacBook Air M2</h3>
-      <p>Лёгкий. Мощный. Бесшумный.</p>
-      <span>от 149 990 ₽</span>
-      <button class="btn" data-name="MacBook Air M2" data-img="macbook.jpg">Купить</button>
-    </div>
+        <div class="product">
+            <img src="macbook.jpg">
+            <h3>MacBook Air M2</h3>
+            <p>Лёгкий. Мощный. Бесшумный.</p>
+            <span>от 149 990 ₽</span>
+            <button onclick="addToCart('MacBook Air M2','macbook.jpg')">Купить</button>
+        </div>
 
-    <div class="product">
-      <img src="watch.png">
-      <h3>Apple Watch Ultra</h3>
-      <p>Для спорта и приключений.</p>
-      <span>от 99 990 ₽</span>
-      <button class="btn" data-name="Apple Watch Ultra" data-img="watch.png">Купить</button>
+        <div class="product">
+            <img src="watch.png">
+            <h3>Apple Watch Ultra</h3>
+            <p>Для спорта и приключений.</p>
+            <span>от 99 990 ₽</span>
+            <button onclick="addToCart('Apple Watch Ultra','watch.png')">Купить</button>
+        </div>
     </div>
-  </div>
 </section>
 
 <footer>
-  © 2026 VI Store · Apple Premium Reseller
+    © 2026 VI Store · Apple Premium Reseller
 </footer>
 
-<!-- CART -->
-<div class="cart-modal" id="cartModal">
-  <div class="cart-content">
-    <h2>Корзина</h2>
-    <div id="cartItems"></div>
-    <div class="cart-footer">
-      <button class="btn" id="closeCart">Закрыть</button>
-      <button class="btn">Оформить заказ</button>
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
+    <div class="modal-content">
+        <h3>Корзина</h3>
+        <div id="cartItems"></div>
+        <div class="cart-footer">
+            <button onclick="closeCart()">Закрыть</button>
+            <button onclick="checkout()">Оформить</button>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-  const cartModal = document.getElementById('cartModal');
-  const cartItems = document.getElementById('cartItems');
-  const cartCount = document.getElementById('cartCount');
+    let cart = [];
 
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    function addToCart(name, img) {
+        cart.push({ name, img });
+        updateCart();
+    }
 
-  document.querySelectorAll('.btn[data-name]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      cart.push({
-        name: btn.dataset.name,
-        img: btn.dataset.img,
-        price: getPrice(btn.dataset.name)
-      });
-      saveCart();
-      renderCart();
-    });
-  });
+    function updateCart() {
+        document.getElementById('cartCount').innerText = cart.length;
+        const container = document.getElementById('cartItems');
+        container.innerHTML = '';
 
-  document.getElementById('cartBtn').addEventListener('click', () => {
-    cartModal.style.display = 'flex';
-    renderCart();
-  });
+        cart.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="cart-item">
+                    <img src="${item.img}">
+                    <span>${item.name}</span>
+                    <button onclick="removeItem(${index})">✕</button>
+                </div>
+            `;
+        });
+    }
 
-  document.getElementById('closeCart').addEventListener('click', () => {
-    cartModal.style.display = 'none';
-  });
-
-  function getPrice(name) {
-    if (name.includes('iPhone')) return 129990;
-    if (name.includes('MacBook')) return 149990;
-    if (name.includes('Watch')) return 99990;
-    return 0;
-  }
-
-  function saveCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }
-
-  function renderCart() {
-    cartItems.innerHTML = '';
-    cartCount.textContent = cart.length;
-
-    let total = 0;
-
-    cart.forEach((item, index) => {
-      total += item.price;
-
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <img src="${item.img}">
-        <div>
-          <b>${item.name}</b><br>
-          <small>${item.price.toLocaleString()} ₽</small>
-        </div>
-        <button>✕</button>
-      `;
-
-      div.querySelector('button').onclick = () => {
+    function removeItem(index) {
         cart.splice(index, 1);
-        saveCart();
-        renderCart();
-      };
+        updateCart();
+    }
 
-      cartItems.appendChild(div);
-    });
+    function openCart() {
+        document.getElementById('cartModal').style.display = 'flex';
+    }
 
-    const totalDiv = document.createElement('div');
-    totalDiv.style.marginTop = '20px';
-    totalDiv.innerHTML = `
-      <hr><br>
-      <b>Итого: ${total.toLocaleString()} ₽</b>
-      <br><br>
-      <button class="btn" id="clearCart">Очистить корзину</button>
-    `;
-    cartItems.appendChild(totalDiv);
+    function closeCart() {
+        document.getElementById('cartModal').style.display = 'none';
+    }
 
-    document.getElementById('clearCart').onclick = () => {
-      cart = [];
-      saveCart();
-      renderCart();
-    };
-  }
-
-  renderCart();
+    function checkout() {
+        alert('Заказ оформлен 🚀');
+        cart = [];
+        updateCart();
+        closeCart();
+    }
 </script>
-
 
 </body>
 </html>
-
-
-
-
-
-
