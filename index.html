@@ -14,9 +14,25 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+:root {
+    --bg: #f5f5f7;
+    --text: #1d1d1f;
+    --card: #fff;
+    --accent: #0071e3;
+    --muted: #6e6e73;
+}
+
+body.dark {
+    --bg: #0f0f10;
+    --text: #f5f5f7;
+    --card: #1c1c1e;
+    --muted: #9a9a9e;
+}
+
 body {
-    background: #f5f5f7;
-    color: #1d1d1f;
+    background: var(--bg);
+    color: var(--text);
+    transition: .3s;
 }
 
 header {
@@ -33,6 +49,17 @@ header {
     font-size: 18px;
 }
 
+.header-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.theme-toggle {
+    cursor: pointer;
+    font-size: 18px;
+}
+
 .cart-btn {
     cursor: pointer;
     position: relative;
@@ -42,7 +69,7 @@ header {
     position: absolute;
     top: -6px;
     right: -10px;
-    background: #0071e3;
+    background: var(--accent);
     color: #fff;
     font-size: 12px;
     padding: 2px 6px;
@@ -62,14 +89,18 @@ header {
 }
 
 .product {
-    background: #fff;
+    background: var(--card);
     border-radius: 28px;
     padding: 32px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,.06);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    transition: .3s;
+}
+
+.product:hover {
+    transform: translateY(-6px);
 }
 
 .product img {
@@ -85,7 +116,7 @@ header {
 
 .product p {
     font-size: 14px;
-    color: #6e6e73;
+    color: var(--muted);
     margin-bottom: 12px;
 }
 
@@ -96,7 +127,7 @@ header {
 
 .product button {
     margin-top: auto;
-    background: #0071e3;
+    background: var(--accent);
     color: #fff;
     border: none;
     border-radius: 20px;
@@ -128,13 +159,13 @@ header {
     transform: translate(-50%, -50%) scale(.95);
     width: calc(100% - 40px);
     max-width: 420px;
-    background: #fff;
+    background: var(--card);
     border-radius: 28px;
     padding: 28px;
     box-shadow: 0 30px 80px rgba(0,0,0,.25);
     opacity: 0;
     pointer-events: none;
-    transition: .3s ease;
+    transition: .3s;
     z-index: 1001;
 }
 
@@ -151,8 +182,24 @@ header {
 .cart-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.cart-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.cart-controls button {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
 }
 
 .cart-total {
@@ -162,16 +209,18 @@ header {
 
 .cart input {
     width: 100%;
-    padding: 12px 14px;
+    padding: 12px;
     margin-bottom: 10px;
     border-radius: 14px;
     border: 1px solid #d2d2d7;
+    background: var(--bg);
+    color: var(--text);
 }
 
 .cart button.checkout {
     width: 100%;
     padding: 14px;
-    background: #0071e3;
+    background: var(--accent);
     color: #fff;
     border: none;
     border-radius: 18px;
@@ -194,9 +243,12 @@ header {
 
 <header>
     <div class="logo">VI Store</div>
-    <div class="cart-btn" onclick="openCart()">
-        🛒 Корзина
-        <div class="cart-count" id="cartCount">0</div>
+    <div class="header-actions">
+        <div class="theme-toggle" onclick="toggleTheme()">🌗</div>
+        <div class="cart-btn" onclick="openCart()">
+            🛒
+            <div class="cart-count" id="cartCount">0</div>
+        </div>
     </div>
 </header>
 
@@ -234,9 +286,7 @@ header {
 
 <div class="cart" id="cart">
 <h2>Корзина</h2>
-
 <div class="notice" id="notice"></div>
-
 <div id="cartItems"></div>
 <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
 
@@ -248,23 +298,45 @@ header {
 </div>
 
 <script>
-let cart = [];
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+updateCount();
+
+function toggleTheme() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark'));
+}
+
+if (localStorage.getItem('theme') === 'true') {
+    document.body.classList.add('dark');
+}
 
 function openCart() {
-    document.getElementById('cart').classList.add('open');
-    document.getElementById('overlay').classList.add('show');
-    renderCart();
+    cartBox(true);
 }
 
 function closeCart() {
-    document.getElementById('cart').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
+    cartBox(false);
+}
+
+function cartBox(open) {
+    document.getElementById('cart').classList.toggle('open', open);
+    document.getElementById('overlay').classList.toggle('show', open);
+    renderCart();
 }
 
 function addToCart(name, price) {
-    cart.push({name, price});
-    document.getElementById('cartCount').innerText = cart.length;
-    openCart();
+    const item = cart.find(i => i.name === name);
+    if (item) item.qty++;
+    else cart.push({name, price, qty: 1});
+    saveCart();
+    cartBox(true);
+}
+
+function changeQty(name, d) {
+    const item = cart.find(i => i.name === name);
+    item.qty += d;
+    if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+    saveCart();
 }
 
 function renderCart() {
@@ -273,31 +345,45 @@ function renderCart() {
     items.innerHTML = '';
     let sum = 0;
 
-    cart.forEach(item => {
-        sum += item.price;
-        items.innerHTML += `<div class="cart-item">${item.name}<strong>${item.price.toLocaleString()} ₽</strong></div>`;
+    cart.forEach(i => {
+        sum += i.price * i.qty;
+        items.innerHTML += `
+        <div class="cart-item">
+            ${i.name}
+            <div class="cart-controls">
+                <button onclick="changeQty('${i.name}',-1)">−</button>
+                ${i.qty}
+                <button onclick="changeQty('${i.name}',1)">+</button>
+            </div>
+        </div>`;
     });
 
     total.innerText = `Итого: ${sum.toLocaleString()} ₽`;
 }
 
-function checkout() {
-    const notice = document.getElementById('notice');
-    notice.style.display = 'none';
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCount();
+    renderCart();
+}
 
-    if (!cart.length) return showError('Корзина пуста');
-    if (!phone.value) return showError('Введите телефон');
-    if (!address.value) return showError('Введите адрес');
-    if (!email.value) return showError('Введите email');
+function updateCount() {
+    document.getElementById('cartCount').innerText =
+        cart.reduce((a,b)=>a+b.qty,0);
+}
+
+function checkout() {
+    if (!cart.length) return error('Корзина пуста');
+    if (!phone.value) return error('Введите телефон');
+    if (!address.value) return error('Введите адрес');
+    if (!email.value) return error('Введите email');
 
     let text = 'Новый заказ:%0A';
     let sum = 0;
-
-    cart.forEach(i => {
-        sum += i.price;
-        text += `- ${i.name}: ${i.price.toLocaleString()} ₽%0A`;
+    cart.forEach(i=>{
+        sum += i.price*i.qty;
+        text += `- ${i.name} ×${i.qty}%0A`;
     });
-
     text += `%0AИтого: ${sum.toLocaleString()} ₽`;
     text += `%0AТелефон: ${phone.value}`;
     text += `%0AАдрес: ${address.value}`;
@@ -306,10 +392,10 @@ function checkout() {
     window.location.href = `https://t.me/shinoalog?text=${text}`;
 }
 
-function showError(text) {
-    const notice = document.getElementById('notice');
-    notice.innerText = text;
-    notice.style.display = 'block';
+function error(t){
+    const n=document.getElementById('notice');
+    n.innerText=t;
+    n.style.display='block';
 }
 </script>
 
