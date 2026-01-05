@@ -44,13 +44,14 @@ header {
     font-size: 14px;
 }
 
-/* PRODUCTS */
+/* SECTION */
 .section {
     max-width: 1200px;
     margin: auto;
     padding: 60px 20px;
 }
 
+/* PRODUCTS */
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -77,9 +78,38 @@ body.dark .product {
     box-shadow: 0 20px 40px rgba(0,0,0,0.12);
 }
 
-.product img {
-    max-width: 170px;
-    margin: 0 auto 20px;
+.product-image {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.product-image img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.product h3 {
+    margin-bottom: 6px;
+}
+
+.product p {
+    font-size: 14px;
+    color: #6e6e73;
+    margin-bottom: 12px;
+}
+
+body.dark .product p {
+    color: #a1a1a6;
+}
+
+.product span {
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: block;
 }
 
 .product button {
@@ -221,29 +251,41 @@ footer {
 
 <section class="section">
 <div class="products">
+
     <div class="product">
-        <img src="iphone.jpg">
+        <div class="product-image">
+            <img src="iphone.jpg">
+        </div>
         <h3>iPhone 15 Pro</h3>
+        <p>Титановый корпус, A17 Pro, камера уровня Pro</p>
         <span>129 990 ₽</span>
         <button onclick="add('iPhone 15 Pro',129990)">Купить</button>
     </div>
+
     <div class="product">
-        <img src="macbook.jpg">
+        <div class="product-image">
+            <img src="macbook.jpg">
+        </div>
         <h3>MacBook Air M2</h3>
+        <p>Лёгкий, мощный, до 18 часов работы</p>
         <span>149 990 ₽</span>
         <button onclick="add('MacBook Air M2',149990)">Купить</button>
     </div>
+
     <div class="product">
-        <img src="watch.png">
+        <div class="product-image">
+            <img src="watch.png">
+        </div>
         <h3>Apple Watch Ultra</h3>
+        <p>Для спорта, экстрима и активной жизни</p>
         <span>99 990 ₽</span>
         <button onclick="add('Apple Watch Ultra',99990)">Купить</button>
     </div>
+
 </div>
 </section>
 
 <div class="cart-fab" onclick="toggleCart()">🛒 <span id="count">0</span></div>
-
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
 <div class="cart" id="cart" onclick="event.stopPropagation()">
@@ -309,17 +351,19 @@ function showNotice(text) {
 
 function checkout() {
     let phone = document.getElementById('phone');
-    phone.classList.remove('error');
+    let address = document.getElementById('address');
+    let email = document.getElementById('email');
+
+    [phone,address,email].forEach(i=>i.classList.remove('error'));
 
     if (!cart.length) return showNotice('Корзина пуста');
-    if (!phone.value) {
-        phone.classList.add('error');
-        return showNotice('Введите номер телефона');
-    }
+    if (!phone.value) { phone.classList.add('error'); return showNotice('Введите телефон'); }
+    if (!address.value) { address.classList.add('error'); return showNotice('Введите адрес'); }
+    if (!email.value) { email.classList.add('error'); return showNotice('Введите Email'); }
 
     let msg = 'Новый заказ:%0A';
     cart.forEach(i=>msg+=`- ${i.name} x${i.qty}%0A`);
-    msg += `%0AТелефон: ${phone.value}`;
+    msg += `%0AТелефон: ${phone.value}%0AАдрес: ${address.value}%0AEmail: ${email.value}`;
 
     window.location.href = `https://t.me/shinoalog?text=${msg}`;
 }
