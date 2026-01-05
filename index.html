@@ -146,7 +146,8 @@
     <a href="#">Товары</a>
     <a href="#">О нас</a>
     <a href="#">Контакты</a>
-    <span class="cart"> Корзина: <b id="cartCount">0</b></span>
+    <span class="cart" onclick="openCart()"> Корзина: <b id="cartCount">0</b></span>
+
   </nav>
 </header>
 
@@ -214,7 +215,25 @@
     document.getElementById('modal').style.display = 'none';
   }
 </script>
+<script>
+  let cart = 0;
+
+  function buy(name, img) {
+    cart++;
+    document.getElementById('cartCount').innerText = cart;
+    document.getElementById('modalTitle').innerText = name;
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+
+  function openCart() {
+    alert("В корзине товаров: " + cart);
+  }
+</script>
 
 </body>
 </html>
-
