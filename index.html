@@ -15,7 +15,8 @@ body{background:var(--bg);color:var(--text);transition:.3s}
 header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-weight:600}
 .header-actions{display:flex;gap:16px;align-items:center}
-.cart-btn{cursor:pointer;position:relative}
+.cart-btn{cursor:pointer;position:relative;transition:.2s}
+.cart-btn.bump{transform:scale(1.15)}
 .cart-count{position:absolute;top:-6px;right:-10px;background:var(--accent);color:#fff;font-size:12px;padding:2px 6px;border-radius:12px}
 .theme-toggle{cursor:pointer}
 
@@ -28,22 +29,51 @@ header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content
 .product h3{margin-bottom:8px}
 .product p{font-size:14px;color:var(--muted);margin-bottom:18px}
 .product span{font-size:18px;font-weight:600;margin-bottom:22px}
-.product button{margin-top:auto;background:var(--accent);color:#fff;border:none;border-radius:22px;padding:14px;cursor:pointer}
+.product button{
+margin-top:auto;
+background:var(--accent);
+color:#fff;
+border:none;
+border-radius:22px;
+padding:14px;
+cursor:pointer;
+transition:.2s;
+}
+.product button:active{transform:scale(.95)}
 
 /* OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:.3s;z-index:1000}
 .overlay.show{opacity:1;pointer-events:all}
 
 /* CART */
-.cart{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);width:100%;max-width:420px;background:var(--card);border-radius:28px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.3s;z-index:1001}
+.cart{
+position:fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%) scale(.95);
+width:100%;
+max-width:420px;
+background:var(--card);
+border-radius:28px;
+padding:28px;
+box-shadow:0 30px 80px rgba(0,0,0,.25);
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:1001
+}
 .cart.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
-.cart h2{margin-bottom:16px}
+.cart.shake{animation:shake .4s}
+@keyframes shake{
+0%,100%{transform:translate(-50%,-50%)}
+25%{transform:translate(-48%,-50%)}
+75%{transform:translate(-52%,-50%)}
+}
 
+.cart h2{margin-bottom:16px}
 .cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:14px}
 .qty{display:flex;align-items:center;gap:6px}
 .qty button{width:24px;height:24px;border-radius:50%;border:1px solid #ccc;background:none;cursor:pointer}
 .remove{cursor:pointer;color:#b00020;font-size:12px}
-
 .cart-total{font-weight:600;margin:16px 0}
 .cart input{width:100%;padding:12px;margin-bottom:10px;border-radius:14px;border:1px solid #d2d2d7}
 .cart button.checkout{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:18px;cursor:pointer}
@@ -57,7 +87,7 @@ header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content
 <div class="logo">VI Store</div>
 <div class="header-actions">
 <div class="theme-toggle" onclick="toggleTheme()">🌗</div>
-<div class="cart-btn" onclick="openCart()">🛒
+<div class="cart-btn" id="cartBtn" onclick="openCart()">🛒
 <div class="cart-count" id="cartCount">0</div>
 </div>
 </div>
@@ -71,7 +101,7 @@ header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content
 <h3>iPhone 15 Pro</h3>
 <p>Титановый корпус. A17 Pro.</p>
 <span>129 990 ₽</span>
-<button onclick="addToCart('iPhone 15 Pro',129990)">Купить</button>
+<button onclick="addToCart('iPhone 15 Pro',129990,this)">Купить</button>
 </div>
 
 <div class="product">
@@ -79,7 +109,7 @@ header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content
 <h3>MacBook Air M2</h3>
 <p>Лёгкий. Мощный.</p>
 <span>149 990 ₽</span>
-<button onclick="addToCart('MacBook Air M2',149990)">Купить</button>
+<button onclick="addToCart('MacBook Air M2',149990,this)">Купить</button>
 </div>
 
 <div class="product">
@@ -87,7 +117,7 @@ header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content
 <h3>Apple Watch Ultra</h3>
 <p>Для приключений.</p>
 <span>99 990 ₽</span>
-<button onclick="addToCart('Apple Watch Ultra',99990)">Купить</button>
+<button onclick="addToCart('Apple Watch Ultra',99990,this)">Купить</button>
 </div>
 
 </div>
@@ -107,17 +137,22 @@ header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content
 </div>
 
 <script>
-const cartEl = document.getElementById('cart');
-const overlay = document.getElementById('overlay');
-const cartItems = document.getElementById('cartItems');
-const cartTotal = document.getElementById('cartTotal');
-const cartCount = document.getElementById('cartCount');
-const notice = document.getElementById('notice');
-const phone = document.getElementById('phone');
-const address = document.getElementById('address');
-const email = document.getElementById('email');
+const cartEl=document.getElementById('cart');
+const overlay=document.getElementById('overlay');
+const cartItems=document.getElementById('cartItems');
+const cartTotal=document.getElementById('cartTotal');
+const cartCount=document.getElementById('cartCount');
+const cartBtn=document.getElementById('cartBtn');
+const notice=document.getElementById('notice');
+const phone=document.getElementById('phone');
+const address=document.getElementById('address');
+const email=document.getElementById('email');
 
-let cart = {};
+let cart=JSON.parse(localStorage.getItem('cart'))||{};
+
+updateCount();
+
+function saveCart(){localStorage.setItem('cart',JSON.stringify(cart));}
 
 function toggleTheme(){
 document.body.classList.toggle('dark');
@@ -128,9 +163,13 @@ if(localStorage.getItem('theme')==='true')document.body.classList.add('dark');
 function openCart(){cartEl.classList.add('open');overlay.classList.add('show');renderCart();}
 function closeCart(){cartEl.classList.remove('open');overlay.classList.remove('show');}
 
-function addToCart(name,price){
+function addToCart(name,price,btn){
 cart[name]?cart[name].qty++:(cart[name]={price,qty:1});
-updateCount();openCart();
+saveCart();updateCount();renderCart();
+btn.style.transform='scale(.92)';
+setTimeout(()=>btn.style.transform='',150);
+cartBtn.classList.add('bump');
+setTimeout(()=>cartBtn.classList.remove('bump'),200);
 }
 
 function updateCount(){
@@ -156,22 +195,30 @@ ${n}
 cartTotal.innerText=`Итого: ${sum.toLocaleString()} ₽`;
 }
 
-function changeQty(n,d){cart[n].qty+=d;if(cart[n].qty<=0)delete cart[n];updateCount();renderCart();}
-function removeItem(n){delete cart[n];updateCount();renderCart();}
+function changeQty(n,d){
+cart[n].qty+=d;
+if(cart[n].qty<=0)delete cart[n];
+saveCart();updateCount();renderCart();
+}
+
+function removeItem(n){delete cart[n];saveCart();updateCount();renderCart();}
 
 function checkout(){
-if(!Object.keys(cart).length)return showError('Корзина пуста');
-if(!phone.value)return showError('Введите телефон');
-if(!address.value)return showError('Введите адрес');
-if(!email.value)return showError('Введите email');
-
+notice.style.display='none';
+if(!Object.keys(cart).length)return error('Корзина пуста');
+if(!phone.value||!address.value||!email.value)return error('Заполните все поля');
 let text='Новый заказ:%0A',sum=0;
 for(let n in cart){let i=cart[n];sum+=i.price*i.qty;text+=`- ${n} x${i.qty}: ${(i.price*i.qty).toLocaleString()} ₽%0A`;}
 text+=`%0AИтого: ${sum.toLocaleString()} ₽`;
 window.location.href=`https://t.me/shinoalog?text=${text}`;
 }
 
-function showError(t){notice.innerText=t;notice.style.display='block';}
+function error(t){
+notice.innerText=t;
+notice.style.display='block';
+cartEl.classList.add('shake');
+setTimeout(()=>cartEl.classList.remove('shake'),400);
+}
 </script>
 
 </body>
