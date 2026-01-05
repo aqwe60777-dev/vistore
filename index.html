@@ -171,7 +171,63 @@
 .product button {
     margin-top: auto;
 }
+.product {
+    background: #fff;
+    border-radius: 26px;
+    padding: 36px 26px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    animation: productFade 0.8s ease forwards;
+}
+
+.product:nth-child(1) { animation-delay: 0.1s; }
+.product:nth-child(2) { animation-delay: 0.25s; }
+.product:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes productFade {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.product button {
+    margin-top: auto;
+}
+.product {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.product:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+}
+    .btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
   </style>
 </head>
 
@@ -323,5 +379,6 @@
 
 </body>
 </html>
+
 
 
