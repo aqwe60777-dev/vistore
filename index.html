@@ -7,14 +7,57 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-:root{--bg:#f5f5f7;--text:#1d1d1f;--card:#fff;--accent:#0071e3;--muted:#6e6e73}
-body{background:var(--bg);color:var(--text);transition:.3s}
+
+:root{
+--bg:#f5f5f7;
+--text:#1d1d1f;
+--card:#fff;
+--accent:#0071e3;
+--muted:#6e6e73;
+}
+
+body.dark{
+--bg:#0f0f12;
+--text:#f5f5f7;
+--card:#1c1c1e;
+--muted:#a1a1a6;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+transition:.3s;
+}
 
 /* HEADER */
-header{background:#111;color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:600}
+header{
+background:#111;
+color:#fff;
+padding:16px 24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.controls{display:flex;gap:16px;align-items:center}
+
+.toggle{
+cursor:pointer;
+font-size:14px;
+opacity:.8;
+}
+
 .cart-btn{cursor:pointer;position:relative}
-.cart-count{position:absolute;top:-6px;right:-10px;background:var(--accent);color:#fff;font-size:12px;padding:2px 6px;border-radius:12px}
+.cart-count{
+position:absolute;
+top:-6px;
+right:-10px;
+background:var(--accent);
+color:#fff;
+font-size:12px;
+padding:2px 6px;
+border-radius:12px;
+}
 
 /* PRODUCTS */
 .section{max-width:1200px;margin:auto;padding:70px 20px}
@@ -28,19 +71,13 @@ box-shadow:0 12px 30px rgba(0,0,0,.06);
 display:flex;
 flex-direction:column;
 text-align:center;
-opacity:0;
-transform:translateY(30px);
-animation:fadeUp .8s ease forwards;
-transition:.35s cubic-bezier(.4,0,.2,1);
+transition:.5s cubic-bezier(.4,0,.2,1);
+transform-style:preserve-3d;
 }
 
-.product:nth-child(1){animation-delay:.1s}
-.product:nth-child(2){animation-delay:.25s}
-.product:nth-child(3){animation-delay:.4s}
-
 .product:hover{
-transform:translateY(-8px);
-box-shadow:0 24px 60px rgba(0,0,0,.12);
+transform:translateY(-10px) rotateX(4deg) rotateY(-4deg);
+box-shadow:0 30px 80px rgba(0,0,0,.18);
 }
 
 .product img{
@@ -48,23 +85,15 @@ width:180px;
 height:180px;
 object-fit:contain;
 margin:0 auto 20px;
-transition:.35s cubic-bezier(.4,0,.2,1);
+transition:.4s cubic-bezier(.4,0,.2,1);
 }
 
 .product:hover img{
-transform:scale(1.06);
+transform:translateZ(20px) scale(1.06);
 }
 
-.product p{
-font-size:14px;
-color:var(--muted);
-margin:12px 0;
-}
-
-.product span{
-font-weight:600;
-margin-bottom:18px;
-}
+.product p{font-size:14px;color:var(--muted);margin:12px 0}
+.product span{font-weight:600;margin-bottom:18px}
 
 .product button{
 margin-top:auto;
@@ -74,20 +103,28 @@ border:none;
 border-radius:22px;
 padding:14px;
 cursor:pointer;
-transition:.25s cubic-bezier(.4,0,.2,1);
+transition:.25s;
 }
 
-.product button:hover{
-transform:translateY(-2px);
+.product button:hover{transform:translateY(-2px)}
+.product button:active{transform:scale(.96)}
+
+/* OVERLAY + BLUR */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.35);
+backdrop-filter:blur(8px);
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:1000;
 }
 
-.product button:active{
-transform:scale(.96);
+.overlay.show{
+opacity:1;
+pointer-events:all;
 }
-
-/* OVERLAY */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.3s;z-index:1000}
-.overlay.show{opacity:1;pointer-events:all}
 
 /* MODALS */
 .modal{
@@ -103,17 +140,49 @@ box-shadow:0 30px 80px rgba(0,0,0,.25);
 opacity:0;
 pointer-events:none;
 transition:.3s;
-z-index:1001
+z-index:1001;
 }
+
 .modal.open{
 opacity:1;
 pointer-events:all;
-transform:translate(-50%,-50%) scale(1)
+transform:translate(-50%,-50%) scale(1);
 }
 
-.cart-item{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px}
+.cart-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:14px;
+margin-bottom:10px;
+gap:10px;
+}
+
+.qty{
+display:flex;
+gap:6px;
+align-items:center;
+}
+
+.qty button{
+width:24px;height:24px;
+border:none;border-radius:50%;
+background:#e5e5ea;
+cursor:pointer;
+}
+
 .cart-total{font-weight:600;margin:16px 0}
-input{width:100%;padding:12px;margin-bottom:10px;border-radius:14px;border:1px solid #d2d2d7}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border-radius:14px;
+border:1px solid #d2d2d7;
+background:var(--card);
+color:var(--text);
+}
+
 button.checkout{
 width:100%;
 padding:14px;
@@ -123,6 +192,7 @@ border:none;
 border-radius:18px;
 cursor:pointer;
 }
+
 .notice{
 background:#ffecec;
 color:#b00020;
@@ -132,10 +202,6 @@ font-size:13px;
 margin-bottom:12px;
 display:none;
 }
-
-@keyframes fadeUp{
-to{opacity:1;transform:translateY(0)}
-}
 </style>
 </head>
 
@@ -143,8 +209,11 @@ to{opacity:1;transform:translateY(0)}
 
 <header>
 <div class="logo">VI Store</div>
+<div class="controls">
+<div class="toggle" onclick="toggleTheme()">🌗</div>
 <div class="cart-btn" onclick="openCart()">🛒
 <div class="cart-count" id="cartCount">0</div>
+</div>
 </div>
 </header>
 
@@ -200,8 +269,14 @@ to{opacity:1;transform:translateY(0)}
 
 <script>
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');
 
 function save(){localStorage.setItem('cart',JSON.stringify(cart))}
+function toggleTheme(){
+document.body.classList.toggle('dark');
+localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light');
+}
+
 function openCart(){show('cart')}
 function closeAll(){hide('cart');hide('checkout')}
 
@@ -216,7 +291,8 @@ document.getElementById('overlay').classList.remove('show');
 }
 
 function addToCart(name,price){
-cart.push({name,price});
+const item=cart.find(i=>i.name===name);
+item?item.qty++:cart.push({name,price,qty:1});
 save();openCart();
 }
 
@@ -224,48 +300,54 @@ function render(){
 const items=document.getElementById('cartItems');
 const total=document.getElementById('cartTotal');
 items.innerHTML='';
-let sum=0;
-cart.forEach(i=>{
-sum+=i.price;
-items.innerHTML+=`<div class="cart-item">${i.name}<strong>${i.price.toLocaleString()} ₽</strong></div>`;
+let sum=0,count=0;
+cart.forEach((i,idx)=>{
+sum+=i.price*i.qty;
+count+=i.qty;
+items.innerHTML+=`
+<div class="cart-item">
+${i.name}
+<div class="qty">
+<button onclick="changeQty(${idx},-1)">−</button>
+${i.qty}
+<button onclick="changeQty(${idx},1)">+</button>
+</div>
+<strong>${(i.price*i.qty).toLocaleString()} ₽</strong>
+</div>`;
 });
 total.innerText=`Итого: ${sum.toLocaleString()} ₽`;
-document.getElementById('cartCount').innerText=cart.length;
+cartCount.innerText=count;
+}
+
+function changeQty(i,d){
+cart[i].qty+=d;
+if(cart[i].qty<=0)cart.splice(i,1);
+save();render();
 }
 
 function openCheckout(){
 if(!cart.length)return error('Корзина пуста');
 if(!phone.value||!address.value||!email.value)return error('Заполните все поля');
-
-hide('cart');
-show('checkout');
-
-let sum=0, html='';
+hide('cart');show('checkout');
+let sum=0,html='';
 cart.forEach(i=>{
-sum+=i.price;
-html+=`<div class="cart-item">${i.name}<strong>${i.price.toLocaleString()} ₽</strong></div>`;
+sum+=i.price*i.qty;
+html+=`<div class="cart-item">${i.name} ×${i.qty}<strong>${(i.price*i.qty).toLocaleString()} ₽</strong></div>`;
 });
-document.getElementById('checkoutSummary').innerHTML=html;
-document.getElementById('checkoutTotal').innerText=`Итого: ${sum.toLocaleString()} ₽`;
+checkoutSummary.innerHTML=html;
+checkoutTotal.innerText=`Итого: ${sum.toLocaleString()} ₽`;
 }
 
 function confirmOrder(){
-let text='Новый заказ:%0A',sum=0;
-cart.forEach(i=>{
-sum+=i.price;
-text+=`- ${i.name}: ${i.price.toLocaleString()} ₽%0A`;
-});
-text+=`%0AИтого: ${sum.toLocaleString()} ₽`;
-text+=`%0AТелефон: ${phone.value}%0AАдрес: ${address.value}%0AEmail: ${email.value}`;
 cart=[];save();
-window.location.href=`https://t.me/shinoalog?text=${text}`;
+window.location.reload();
 }
 
 function error(t){
-const n=document.getElementById('notice');
-n.innerText=t;
-n.style.display='block';
+notice.innerText=t;
+notice.style.display='block';
 }
+render();
 </script>
 
 </body>
