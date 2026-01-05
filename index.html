@@ -198,8 +198,6 @@
     <button class="btn close" onclick="closeModal()">Закрыть</button>
   </div>
 </div>
-
-<script>
   let cart = 0;
 
   function buy(name, img) {
@@ -217,10 +215,35 @@
   function openCart() {
     alert("В корзине товаров: " + cart);
   }
+  <script>
+  let cart = 0;
+
+  function buy(name, img) {
+    cart++;
+    document.getElementById('cartCount').innerText = cart;
+    document.getElementById('modalTitle').innerText = name;
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+
+  function openCart() {
+    alert("В корзине товаров: " + cart);
+  }
+
+  // 🔴 ВАЖНО — делаем функции глобальными
+  window.openCart = openCart;
+  window.buy = buy;
+  window.closeModal = closeModal;
+
 </script>
 
 
 
 </body>
 </html>
+
 
