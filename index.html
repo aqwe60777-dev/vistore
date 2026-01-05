@@ -1,145 +1,139 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>VI Store — Apple техника</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="VI Store — премиальная Apple техника. iPhone, MacBook, Apple Watch." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VI Store — премиальная Apple техника">
 
-  <!-- Favicon -->
-  <link rel="icon" href="/favicon-final.ico?v=5">
-  <link rel="shortcut icon" href="/favicon-final.ico?v=5">
+  <link rel="icon" href="/favicon-final.ico?v=7">
+  <link rel="shortcut icon" href="/favicon-final.ico?v=7">
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f5f5f7;
-      color: #111;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Inter, sans-serif; background:#f5f5f7; color:#111; }
 
     header {
-      background: #0f0f10;
-      color: #fff;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background:#0f0f10;
+      color:#fff;
+      padding:20px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:10;
     }
 
-    header h1 {
-      font-size: 20px;
-      font-weight: 600;
-    }
+    header h1 { font-size:20px; }
+    nav a { color:#ccc; margin-left:24px; text-decoration:none; font-size:14px; }
+    nav a:hover { color:#fff; }
 
-    nav a {
-      color: #cfcfcf;
-      text-decoration: none;
-      margin-left: 24px;
-      font-size: 14px;
-    }
-
-    nav a:hover {
-      color: #fff;
+    .cart {
+      cursor:pointer;
+      font-size:14px;
     }
 
     .hero {
-      padding: 100px 20px;
-      text-align: center;
-      background: linear-gradient(180deg, #0f0f10 0%, #1c1c1e 100%);
-      color: #fff;
+      padding:100px 20px;
+      background:linear-gradient(180deg,#0f0f10,#1c1c1e);
+      color:#fff;
+      text-align:center;
     }
 
-    .hero h2 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: #cfcfcf;
-    }
+    .hero h2 { font-size:48px; margin-bottom:20px; }
+    .hero p { color:#ccc; }
 
     .section {
-      padding: 80px 40px;
-      max-width: 1200px;
-      margin: auto;
+      max-width:1200px;
+      margin:auto;
+      padding:80px 20px;
     }
 
     .section h3 {
-      font-size: 32px;
-      margin-bottom: 40px;
-      text-align: center;
+      text-align:center;
+      font-size:32px;
+      margin-bottom:40px;
     }
 
     .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:30px;
     }
 
     .card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 30px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      transition: transform 0.3s, box-shadow 0.3s;
+      background:#fff;
+      border-radius:20px;
+      padding:30px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      transition:.3s;
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
+    .card:hover { transform:translateY(-6px); }
 
     .card img {
-      max-width: 100%;
-      height: 180px;
-      object-fit: contain;
-      margin-bottom: 20px;
+      height:180px;
+      object-fit:contain;
+      margin-bottom:20px;
     }
 
-    .card h4 {
-      font-size: 18px;
-      margin-bottom: 10px;
+    .card h4 { margin-bottom:10px; }
+    .card p { font-size:14px; color:#666; margin-bottom:20px; }
+    .price { font-weight:600; margin-bottom:20px; }
+
+    .btn {
+      background:#0071e3;
+      color:#fff;
+      border:none;
+      padding:12px 20px;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:14px;
     }
 
-    .card p {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 20px;
-    }
-
-    .price {
-      font-weight: 600;
-      font-size: 16px;
-    }
+    .btn:hover { background:#005bb5; }
 
     footer {
-      background: #0f0f10;
-      color: #aaa;
-      text-align: center;
-      padding: 30px;
-      font-size: 14px;
+      background:#0f0f10;
+      color:#aaa;
+      text-align:center;
+      padding:30px;
+      font-size:14px;
     }
 
-    @media (max-width: 600px) {
-      .hero h2 {
-        font-size: 34px;
-      }
+    /* MODAL */
+    .modal {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.6);
+      display:none;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .modal-content {
+      background:#fff;
+      padding:40px;
+      border-radius:20px;
+      max-width:400px;
+      width:90%;
+      text-align:center;
+    }
+
+    .modal-content img {
+      height:200px;
+      margin-bottom:20px;
+    }
+
+    .close {
+      margin-top:20px;
+      background:#ddd;
+      color:#000;
     }
   </style>
 </head>
@@ -152,12 +146,13 @@
     <a href="#">Товары</a>
     <a href="#">О нас</a>
     <a href="#">Контакты</a>
+    <span class="cart">🛒 Корзина: <b id="cartCount">0</b></span>
   </nav>
 </header>
 
 <section class="hero">
   <h2>Apple техника премиум-класса</h2>
-  <p>iPhone, MacBook и Apple Watch с гарантией качества</p>
+  <p>Гарантия. Качество. Стиль.</p>
 </section>
 
 <section class="section">
@@ -165,24 +160,27 @@
 
   <div class="products">
     <div class="card">
-      <img src="/iphone.jpg" alt="iPhone 15 Pro">
+      <img src="/iphone.jpg">
       <h4>iPhone 15 Pro</h4>
       <p>Титановый корпус. A17 Pro.</p>
-      <div class="price">от 129 990 ₽</div>
+      <div class="price">129 990 ₽</div>
+      <button class="btn" onclick="buy('iPhone 15 Pro', '/iphone.jpg')">Купить</button>
     </div>
 
     <div class="card">
-      <img src="/macbook.jpg" alt="MacBook Air M2">
+      <img src="/macbook.jpg">
       <h4>MacBook Air M2</h4>
-      <p>Лёгкий. Мощный. Бесшумный.</p>
-      <div class="price">от 149 990 ₽</div>
+      <p>Лёгкий. Мощный.</p>
+      <div class="price">149 990 ₽</div>
+      <button class="btn" onclick="buy('MacBook Air M2', '/macbook.jpg')">Купить</button>
     </div>
 
     <div class="card">
-      <img src="/watch.png" alt="Apple Watch Ultra">
+      <img src="/watch.png">
       <h4>Apple Watch Ultra</h4>
       <p>Для спорта и приключений.</p>
-      <div class="price">от 99 990 ₽</div>
+      <div class="price">99 990 ₽</div>
+      <button class="btn" onclick="buy('Apple Watch Ultra', '/watch.png')">Купить</button>
     </div>
   </div>
 </section>
@@ -190,6 +188,32 @@
 <footer>
   © 2026 VI Store · Apple техника
 </footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <img id="modalImg">
+    <h3 id="modalTitle"></h3>
+    <p>Товар добавлен в корзину</p>
+    <button class="btn close" onclick="closeModal()">Закрыть</button>
+  </div>
+</div>
+
+<script>
+  let cart = 0;
+
+  function buy(name, img) {
+    cart++;
+    document.getElementById('cartCount').innerText = cart;
+    document.getElementById('modalTitle').innerText = name;
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
