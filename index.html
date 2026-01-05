@@ -5,64 +5,36 @@
   <title>VI Store</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- favicon -->
   <link rel="icon" href="favicon-final.ico">
 
   <style>
-    :root {
-      --bg: #f5f5f7;
-      --card: #ffffff;
-      --text: #000000;
-      --subtext: #666;
-      --btn: #0071e3;
-      --header: #000;
-    }
-
-    body.dark {
-      --bg: #0f0f0f;
-      --card: #1c1c1e;
-      --text: #ffffff;
-      --subtext: #aaa;
-      --btn: #0a84ff;
-      --header: #000;
-    }
-
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      background: #f5f5f7;
     }
 
     header {
-      background: var(--header);
+      background: #000;
+      color: #fff;
       padding: 16px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    /* ЛОГОТИП БЕЗ ТЕКСТА */
     .logo img {
       height: 28px;
       display: block;
     }
 
-    .header-right {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .cart-btn,
-    .theme-btn {
+    .cart-btn {
       background: none;
-      border: 1px solid #444;
+      border: none;
       color: #fff;
-      padding: 6px 12px;
-      border-radius: 999px;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 14px;
     }
 
     .products {
@@ -70,11 +42,10 @@
       gap: 24px;
       padding: 40px;
       justify-content: center;
-      flex-wrap: wrap;
     }
 
     .product {
-      background: var(--card);
+      background: #fff;
       border-radius: 24px;
       padding: 32px;
       width: 260px;
@@ -82,7 +53,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: background 0.3s;
     }
 
     .product img {
@@ -96,7 +66,7 @@
 
     .product p {
       margin: 0 0 12px;
-      color: var(--subtext);
+      color: #666;
       font-size: 14px;
     }
 
@@ -110,7 +80,7 @@
       padding: 10px 22px;
       border-radius: 999px;
       border: none;
-      background: var(--btn);
+      background: #0071e3;
       color: #fff;
       cursor: pointer;
       font-size: 14px;
@@ -127,7 +97,7 @@
     }
 
     .modal-content {
-      background: var(--card);
+      background: #fff;
       border-radius: 20px;
       padding: 24px;
       width: 90%;
@@ -155,22 +125,17 @@
 <body>
 
 <header>
-  <!-- ТОЛЬКО КАРТИНКА -->
+  <!-- ЛОГОТИП БЕЗ ДУБЛЯ -->
   <div class="logo">
-    <img src="logo.png" alt="">
+    <img src="logo.png" alt="VI Store">
   </div>
 
-  <div class="header-right">
-    <button class="theme-btn" onclick="toggleTheme()">🌙 / ☀️</button>
-    <button class="cart-btn" onclick="openCart()">
-      Корзина (<span id="cartCount">0</span>)
-    </button>
-  </div>
+  <button class="cart-btn" onclick="openCart()">Корзина (<span id="cartCount">0</span>)</button>
 </header>
 
 <section class="products">
   <div class="product">
-    <img src="iphone.jpg" alt="">
+    <img src="iphone.jpg" alt="iPhone 15 Pro">
     <h3>iPhone 15 Pro</h3>
     <p>Титановый корпус</p>
     <span>129 990 ₽</span>
@@ -178,7 +143,7 @@
   </div>
 
   <div class="product">
-    <img src="macbook.jpg" alt="">
+    <img src="macbook.jpg" alt="MacBook Air M2">
     <h3>MacBook Air M2</h3>
     <p>Лёгкий и мощный</p>
     <span>149 990 ₽</span>
@@ -186,7 +151,7 @@
   </div>
 
   <div class="product">
-    <img src="watch.png" alt="">
+    <img src="watch.png" alt="Apple Watch Ultra">
     <h3>Apple Watch Ultra</h3>
     <p>Для спорта</p>
     <span>99 990 ₽</span>
@@ -194,7 +159,7 @@
   </div>
 </section>
 
-<!-- КОРЗИНА -->
+<!-- МОДАЛКА КОРЗИНЫ -->
 <div class="modal" id="cartModal">
   <div class="modal-content">
     <h3>Корзина</h3>
@@ -238,10 +203,6 @@
 
   function closeCart() {
     document.getElementById('cartModal').style.display = 'none';
-  }
-
-  function toggleTheme() {
-    document.body.classList.toggle('dark');
   }
 </script>
 
