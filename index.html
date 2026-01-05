@@ -1,259 +1,333 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Магазин техники Apple - VIStore</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>VI Store — Apple техника</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico">
 
-    <!-- favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
+body {
+    background: #f5f5f7;
+    color: #1d1d1f;
+    transition: background .3s, color .3s;
+}
 
-        body {
-            background: #f5f5f7;
-            color: #1d1d1f;
-        }
+body.dark {
+    background: #0f0f10;
+    color: #f5f5f7;
+}
 
-        header {
-            background: #111;
-            color: #fff;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* HEADER */
+header {
+    background: #111;
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        .logo img {
-            height: 32px;
-        }
+.logo img {
+    height: 32px;
+}
 
-        .cart-btn {
-            cursor: pointer;
-            font-size: 15px;
-        }
+.switch {
+    cursor: pointer;
+    font-size: 14px;
+}
 
-        .section {
-            max-width: 1200px;
-            margin: auto;
-            padding: 60px 20px;
-        }
+/* PRODUCTS */
+.section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 20px;
+}
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 32px;
-        }
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+}
 
-        .product {
-            background: #fff;
-            border-radius: 28px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-            display: flex;
-            flex-direction: column;
-        }
+.product {
+    background: #fff;
+    border-radius: 28px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    transition: transform .25s, box-shadow .25s;
+}
 
-        .product img {
-            max-width: 170px;
-            margin: 0 auto 20px;
-            display: block;
-        }
+body.dark .product {
+    background: #1c1c1e;
+}
 
-        .product h3 {
-            margin-bottom: 6px;
-        }
+.product:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
 
-        .product p {
-            color: #6e6e73;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
+.product img {
+    max-width: 170px;
+    margin: 0 auto 20px;
+}
 
-        .product span {
-            font-weight: 600;
-            margin-bottom: 18px;
-        }
+.product h3 {
+    margin-bottom: 6px;
+}
 
-        .product button {
-            margin-top: auto;
-            background: #0071e3;
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 18px;
-            cursor: pointer;
-        }
+.product p {
+    color: #6e6e73;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
 
-        /* CART */
-        .cart {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            max-width: 420px;
-            height: 100%;
-            background: #fff;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.15);
-            padding: 24px;
-            transition: 0.3s ease;
-            overflow-y: auto;
-            z-index: 1000;
-        }
+.product span {
+    font-weight: 600;
+    margin-bottom: 18px;
+}
 
-        .cart.open {
-            right: 0;
-        }
+.product button {
+    margin-top: auto;
+    background: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 18px;
+    cursor: pointer;
+}
 
-        .cart h2 {
-            margin-bottom: 20px;
-        }
+/* CART BUTTON */
+.cart-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0071e3;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    z-index: 1000;
+}
 
-        .cart-item {
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
+.cart-fab span {
+    background: #fff;
+    color: #0071e3;
+    border-radius: 50%;
+    padding: 2px 8px;
+    margin-left: 6px;
+    font-size: 13px;
+}
 
-        .cart-total {
-            margin: 20px 0;
-            font-weight: bold;
-        }
+/* CART PANEL */
+.cart {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background: #fff;
+    padding: 24px;
+    transition: .35s ease;
+    box-shadow: -10px 0 30px rgba(0,0,0,.2);
+    z-index: 2000;
+}
 
-        .cart input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
+body.dark .cart {
+    background: #1c1c1e;
+}
 
-        .cart button {
-            width: 100%;
-            padding: 12px;
-            background: #0071e3;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+.cart.open {
+    right: 0;
+}
 
-        footer {
-            background: #1d1d1f;
-            color: #aaa;
-            text-align: center;
-            padding: 20px;
-            font-size: 13px;
-        }
-    </style>
+.cart h2 {
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.cart-controls button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: inherit;
+}
+
+.cart-total {
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.cart input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.cart button.checkout {
+    width: 100%;
+    padding: 12px;
+    background: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+    background: #1d1d1f;
+    color: #aaa;
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+}
+</style>
 </head>
+
 <body>
 
 <header>
     <div class="logo">
-        <img src="logo.svg" alt="VI Store">
         <strong>VI Store</strong>
     </div>
-    <div class="cart-btn" onclick="toggleCart()">🛒 Корзина</div>
+    <div class="switch" onclick="toggleTheme()">🌙 Тема</div>
 </header>
 
 <section class="section">
-    <div class="products">
+<div class="products">
 
-        <div class="product">
-            <img src="iphone.jpg" alt="iPhone 15 Pro">
-            <h3>iPhone 15 Pro</h3>
-            <p>Титановый корпус</p>
-            <span>129 990 ₽</span>
-            <button onclick="addToCart('iPhone 15 Pro',129990)">Купить</button>
-        </div>
-
-        <div class="product">
-            <img src="macbook.jpg" alt="MacBook Air M2">
-            <h3>MacBook Air M2</h3>
-            <p>Лёгкий и мощный</p>
-            <span>149 990 ₽</span>
-            <button onclick="addToCart('MacBook Air M2',149990)">Купить</button>
-        </div>
-
-        <div class="product">
-            <img src="watch.png" alt="Apple Watch Ultra">
-            <h3>Apple Watch Ultra</h3>
-            <p>Для спорта</p>
-            <span>99 990 ₽</span>
-            <button onclick="addToCart('Apple Watch Ultra',99990)">Купить</button>
-        </div>
-
-    </div>
-</section>
-
-<div class="cart" id="cart">
-    <h2>Корзина</h2>
-    <div id="cartItems"></div>
-    <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
-
-    <input id="phone" placeholder="Телефон">
-    <input id="address" placeholder="Адрес">
-    <input id="email" placeholder="Email">
-
-    <button onclick="checkout()">Оформить заказ</button>
+<div class="product">
+<img src="iphone.jpg">
+<h3>iPhone 15 Pro</h3>
+<p>Титановый корпус</p>
+<span>129 990 ₽</span>
+<button onclick="add('iPhone 15 Pro',129990)">Купить</button>
 </div>
 
-<footer>
-    © 2026 VI Store
-</footer>
+<div class="product">
+<img src="macbook.jpg">
+<h3>MacBook Air M2</h3>
+<p>Лёгкий и мощный</p>
+<span>149 990 ₽</span>
+<button onclick="add('MacBook Air M2',149990)">Купить</button>
+</div>
+
+<div class="product">
+<img src="watch.png">
+<h3>Apple Watch Ultra</h3>
+<p>Для спорта</p>
+<span>99 990 ₽</span>
+<button onclick="add('Apple Watch Ultra',99990)">Купить</button>
+</div>
+
+</div>
+</section>
+
+<div class="cart-fab" onclick="toggleCart()">🛒 <span id="count">0</span></div>
+
+<div class="cart" id="cart">
+<h2>Корзина</h2>
+<div id="items"></div>
+<div class="cart-total" id="total">Итого: 0 ₽</div>
+
+<input id="phone" placeholder="Телефон">
+<input id="address" placeholder="Адрес">
+<input id="email" placeholder="Email">
+
+<button class="checkout" onclick="checkout()">Оформить заказ</button>
+</div>
+
+<footer>© 2026 VI Store</footer>
 
 <script>
-    let cart = [];
+let cart = [];
 
-    function toggleCart() {
-        document.getElementById('cart').classList.toggle('open');
-        renderCart();
+function toggleTheme() {
+    document.body.classList.toggle('dark');
+    localStorage.theme = document.body.classList.contains('dark');
+}
+
+if (localStorage.theme === "true") document.body.classList.add('dark');
+
+function toggleCart() {
+    document.getElementById('cart').classList.toggle('open');
+    render();
+}
+
+function add(name, price) {
+    let item = cart.find(i => i.name === name);
+    item ? item.qty++ : cart.push({name, price, qty:1});
+    render();
+    toggleCart();
+}
+
+function render() {
+    let items = document.getElementById('items');
+    let total = 0;
+    items.innerHTML = '';
+
+    cart.forEach((i, idx) => {
+        total += i.price * i.qty;
+        items.innerHTML += `
+        <div class="cart-item">
+            ${i.name} (${i.qty})
+            <div class="cart-controls">
+                <button onclick="cart[${idx}].qty++;render()">+</button>
+                <button onclick="cart[${idx}].qty--; if(cart[${idx}].qty<=0)cart.splice(${idx},1); render()">−</button>
+            </div>
+        </div>`;
+    });
+
+    document.getElementById('total').innerText = `Итого: ${total.toLocaleString()} ₽`;
+    document.getElementById('count').innerText = cart.reduce((s,i)=>s+i.qty,0);
+}
+
+function checkout() {
+    if (!cart.length || !phone.value) {
+        alert('Заполните корзину и телефон');
+        return;
     }
 
-    function addToCart(name, price) {
-        cart.push({ name, price });
-        toggleCart();
-    }
+    let text = 'Новый заказ:%0A';
+    let sum = 0;
 
-    function renderCart() {
-        const items = document.getElementById('cartItems');
-        const total = document.getElementById('cartTotal');
-        items.innerHTML = '';
-        let sum = 0;
+    cart.forEach(i=>{
+        sum += i.price*i.qty;
+        text += `- ${i.name} x${i.qty}%0A`;
+    });
 
-        cart.forEach(item => {
-            sum += item.price;
-            items.innerHTML += `<div class="cart-item">${item.name} — ${item.price.toLocaleString()} ₽</div>`;
-        });
+    text += `%0AИтого: ${sum.toLocaleString()} ₽`;
+    text += `%0AТелефон: ${phone.value}%0AАдрес: ${address.value}%0AEmail: ${email.value}`;
 
-        total.innerText = `Итого: ${sum.toLocaleString()} ₽`;
-    }
-
-    function checkout() {
-        let text = 'Новый заказ:%0A';
-        let sum = 0;
-
-        cart.forEach(item => {
-            sum += item.price;
-            text += `- ${item.name}: ${item.price.toLocaleString()} ₽%0A`;
-        });
-
-        text += `%0AИтого: ${sum.toLocaleString()} ₽%0A`;
-        text += `%0AТелефон: ${phone.value}%0AАдрес: ${address.value}%0AEmail: ${email.value}`;
-
-        window.location.href = `https://t.me/shinoalog?text=${text}`;
-    }
+    window.location.href = `https://t.me/shinoalog?text=${text}`;
+}
 </script>
 
 </body>
