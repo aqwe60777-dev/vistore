@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>VI Store — Apple техника</title>
+<title>VI Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="/favicon.ico">
 
@@ -17,15 +17,8 @@
 body {
     background: #f5f5f7;
     color: #1d1d1f;
-    transition: background .3s, color .3s;
 }
 
-body.dark {
-    background: #0f0f10;
-    color: #f5f5f7;
-}
-
-/* HEADER */
 header {
     background: #111;
     color: #fff;
@@ -37,21 +30,31 @@ header {
 
 .logo {
     font-weight: 600;
+    font-size: 18px;
 }
 
-.switch {
+.cart-btn {
     cursor: pointer;
-    font-size: 14px;
+    position: relative;
 }
 
-/* SECTION */
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: #0071e3;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 12px;
+}
+
 .section {
     max-width: 1200px;
     margin: auto;
     padding: 60px 20px;
 }
 
-/* PRODUCTS */
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -63,33 +66,17 @@ header {
     border-radius: 28px;
     padding: 32px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
     display: flex;
     flex-direction: column;
-    transition: transform .25s, box-shadow .25s;
+    height: 100%;
 }
 
-body.dark .product {
-    background: #1c1c1e;
-}
-
-.product:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-}
-
-.product-image {
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.product-image img {
-    max-height: 100%;
-    max-width: 100%;
+.product img {
+    width: 170px;
+    height: 170px;
     object-fit: contain;
+    margin: 0 auto 20px;
 }
 
 .product h3 {
@@ -102,14 +89,9 @@ body.dark .product {
     margin-bottom: 12px;
 }
 
-body.dark .product p {
-    color: #a1a1a6;
-}
-
 .product span {
     font-weight: 600;
-    margin-bottom: 16px;
-    display: block;
+    margin-bottom: 18px;
 }
 
 .product button {
@@ -118,38 +100,15 @@ body.dark .product p {
     color: #fff;
     border: none;
     border-radius: 20px;
-    padding: 10px 18px;
+    padding: 12px;
     cursor: pointer;
-}
-
-/* CART BUTTON */
-.cart-fab {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: #0071e3;
-    color: #fff;
-    padding: 14px 18px;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    z-index: 1001;
-}
-
-.cart-fab span {
-    background: #fff;
-    color: #0071e3;
-    border-radius: 50%;
-    padding: 2px 8px;
-    margin-left: 6px;
-    font-size: 13px;
 }
 
 /* OVERLAY */
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.4);
+    background: rgba(0,0,0,.35);
     opacity: 0;
     pointer-events: none;
     transition: .3s;
@@ -164,80 +123,69 @@ body.dark .product p {
 /* CART */
 .cart {
     position: fixed;
-    top: 0;
-    right: -100%;
-    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.95);
+    width: calc(100% - 40px);
     max-width: 420px;
-    height: 100%;
     background: #fff;
-    padding: 24px;
-    transition: .35s ease;
-    z-index: 1002;
-}
-
-body.dark .cart {
-    background: #1c1c1e;
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s ease;
+    z-index: 1001;
 }
 
 .cart.open {
-    right: 0;
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.cart h2 {
+    margin-bottom: 16px;
 }
 
 .cart-item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
 .cart-total {
-    margin: 20px 0;
-    font-weight: bold;
+    font-weight: 600;
+    margin: 16px 0;
 }
 
 .cart input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 8px;
-}
-
-.cart input.error {
-    border: 1px solid #ff3b30;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-radius: 14px;
+    border: 1px solid #d2d2d7;
 }
 
 .cart button.checkout {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background: #0071e3;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 18px;
+    cursor: pointer;
 }
 
-/* NOTICE */
 .notice {
-    position: fixed;
-    bottom: 90px;
-    right: 24px;
-    background: #111;
-    color: #fff;
-    padding: 14px 18px;
+    background: #ffecec;
+    color: #b00020;
+    padding: 10px 14px;
     border-radius: 14px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: .3s;
-    z-index: 2000;
-}
-
-.notice.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-footer {
-    background: #1d1d1f;
-    color: #aaa;
-    text-align: center;
-    padding: 20px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: none;
 }
 </style>
 </head>
@@ -246,77 +194,66 @@ footer {
 
 <header>
     <div class="logo">VI Store</div>
-    <div class="switch" onclick="toggleTheme()">🌙 Тема</div>
+    <div class="cart-btn" onclick="openCart()">
+        🛒 Корзина
+        <div class="cart-count" id="cartCount">0</div>
+    </div>
 </header>
 
 <section class="section">
 <div class="products">
 
-    <div class="product">
-        <div class="product-image">
-            <img src="iphone.jpg">
-        </div>
-        <h3>iPhone 15 Pro</h3>
-        <p>Титановый корпус, A17 Pro, камера уровня Pro</p>
-        <span>129 990 ₽</span>
-        <button onclick="add('iPhone 15 Pro',129990)">Купить</button>
-    </div>
+<div class="product">
+<img src="iphone.jpg">
+<h3>iPhone 15 Pro</h3>
+<p>Титановый корпус. A17 Pro</p>
+<span>129 990 ₽</span>
+<button onclick="addToCart('iPhone 15 Pro',129990)">Купить</button>
+</div>
 
-    <div class="product">
-        <div class="product-image">
-            <img src="macbook.jpg">
-        </div>
-        <h3>MacBook Air M2</h3>
-        <p>Лёгкий, мощный, до 18 часов работы</p>
-        <span>149 990 ₽</span>
-        <button onclick="add('MacBook Air M2',149990)">Купить</button>
-    </div>
+<div class="product">
+<img src="macbook.jpg">
+<h3>MacBook Air M2</h3>
+<p>Лёгкий. Мощный. Бесшумный</p>
+<span>149 990 ₽</span>
+<button onclick="addToCart('MacBook Air M2',149990)">Купить</button>
+</div>
 
-    <div class="product">
-        <div class="product-image">
-            <img src="watch.png">
-        </div>
-        <h3>Apple Watch Ultra</h3>
-        <p>Для спорта, экстрима и активной жизни</p>
-        <span>99 990 ₽</span>
-        <button onclick="add('Apple Watch Ultra',99990)">Купить</button>
-    </div>
+<div class="product">
+<img src="watch.png">
+<h3>Apple Watch Ultra</h3>
+<p>Для спорта и приключений</p>
+<span>99 990 ₽</span>
+<button onclick="addToCart('Apple Watch Ultra',99990)">Купить</button>
+</div>
 
 </div>
 </section>
 
-<div class="cart-fab" onclick="toggleCart()">🛒 <span id="count">0</span></div>
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-<div class="cart" id="cart" onclick="event.stopPropagation()">
-    <h2>Корзина</h2>
-    <div id="items"></div>
-    <div class="cart-total" id="total">Итого: 0 ₽</div>
-
-    <input id="phone" placeholder="Телефон">
-    <input id="address" placeholder="Адрес">
-    <input id="email" placeholder="Email">
-
-    <button class="checkout" onclick="checkout()">Оформить заказ</button>
-</div>
+<div class="cart" id="cart">
+<h2>Корзина</h2>
 
 <div class="notice" id="notice"></div>
 
-<footer>© 2026 VI Store</footer>
+<div id="cartItems"></div>
+<div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
+
+<input id="phone" placeholder="Телефон">
+<input id="address" placeholder="Адрес">
+<input id="email" placeholder="Email">
+
+<button class="checkout" onclick="checkout()">Оформить заказ</button>
+</div>
 
 <script>
 let cart = [];
 
-function toggleTheme() {
-    document.body.classList.toggle('dark');
-    localStorage.theme = document.body.classList.contains('dark');
-}
-if (localStorage.theme === "true") document.body.classList.add('dark');
-
-function toggleCart() {
-    document.getElementById('cart').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-    render();
+function openCart() {
+    document.getElementById('cart').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+    renderCart();
 }
 
 function closeCart() {
@@ -324,48 +261,55 @@ function closeCart() {
     document.getElementById('overlay').classList.remove('show');
 }
 
-function add(name, price) {
-    let item = cart.find(i => i.name === name);
-    item ? item.qty++ : cart.push({name, price, qty:1});
-    toggleCart();
+function addToCart(name, price) {
+    cart.push({name, price});
+    document.getElementById('cartCount').innerText = cart.length;
+    openCart();
 }
 
-function render() {
-    let items = document.getElementById('items');
-    let total = 0;
+function renderCart() {
+    const items = document.getElementById('cartItems');
+    const total = document.getElementById('cartTotal');
     items.innerHTML = '';
-    cart.forEach(i=>{
-        total += i.price*i.qty;
-        items.innerHTML += `<div class="cart-item">${i.name} × ${i.qty}</div>`;
-    });
-    document.getElementById('total').innerText = `Итого: ${total.toLocaleString()} ₽`;
-    document.getElementById('count').innerText = cart.reduce((s,i)=>s+i.qty,0);
-}
+    let sum = 0;
 
-function showNotice(text) {
-    let n = document.getElementById('notice');
-    n.innerText = text;
-    n.classList.add('show');
-    setTimeout(()=>n.classList.remove('show'),3000);
+    cart.forEach(item => {
+        sum += item.price;
+        items.innerHTML += `<div class="cart-item">${item.name}<strong>${item.price.toLocaleString()} ₽</strong></div>`;
+    });
+
+    total.innerText = `Итого: ${sum.toLocaleString()} ₽`;
 }
 
 function checkout() {
-    let phone = document.getElementById('phone');
-    let address = document.getElementById('address');
-    let email = document.getElementById('email');
+    const notice = document.getElementById('notice');
+    notice.style.display = 'none';
 
-    [phone,address,email].forEach(i=>i.classList.remove('error'));
+    if (!cart.length) return showError('Корзина пуста');
+    if (!phone.value) return showError('Введите телефон');
+    if (!address.value) return showError('Введите адрес');
+    if (!email.value) return showError('Введите email');
 
-    if (!cart.length) return showNotice('Корзина пуста');
-    if (!phone.value) { phone.classList.add('error'); return showNotice('Введите телефон'); }
-    if (!address.value) { address.classList.add('error'); return showNotice('Введите адрес'); }
-    if (!email.value) { email.classList.add('error'); return showNotice('Введите Email'); }
+    let text = 'Новый заказ:%0A';
+    let sum = 0;
 
-    let msg = 'Новый заказ:%0A';
-    cart.forEach(i=>msg+=`- ${i.name} x${i.qty}%0A`);
-    msg += `%0AТелефон: ${phone.value}%0AАдрес: ${address.value}%0AEmail: ${email.value}`;
+    cart.forEach(i => {
+        sum += i.price;
+        text += `- ${i.name}: ${i.price.toLocaleString()} ₽%0A`;
+    });
 
-    window.location.href = `https://t.me/shinoalog?text=${msg}`;
+    text += `%0AИтого: ${sum.toLocaleString()} ₽`;
+    text += `%0AТелефон: ${phone.value}`;
+    text += `%0AАдрес: ${address.value}`;
+    text += `%0AEmail: ${email.value}`;
+
+    window.location.href = `https://t.me/shinoalog?text=${text}`;
+}
+
+function showError(text) {
+    const notice = document.getElementById('notice');
+    notice.innerText = text;
+    notice.style.display = 'block';
 }
 </script>
 
