@@ -213,20 +213,6 @@
   function closeModal() {
     document.getElementById('modal').style.display = 'none';
   }
-<script>
-  let cart = 0;
-
-  function buy(name, img) {
-    cart++;
-    document.getElementById('cartCount').innerText = cart;
-    document.getElementById('modalTitle').innerText = name;
-    document.getElementById('modalImg').src = img;
-    document.getElementById('modal').style.display = 'flex';
-  }
-
-  function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-  }
 
   function openCart() {
     alert("В корзине товаров: " + cart);
@@ -234,5 +220,7 @@
 </script>
 
 
+
 </body>
 </html>
+
