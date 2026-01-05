@@ -105,7 +105,7 @@ let list=document.getElementById("items"); list.innerHTML="";
 cart.forEach(i=>list.innerHTML+=`<li>${i.name} — ${i.price} ₽</li>`);
 document.getElementById("total").innerText="Итого: "+sum+" ₽";
 let text=cart.map(i=>`${i.name} - ${i.price}₽`).join('%0A');
-document.getElementById("tg").href=`https://t.me/USERNAME?text=${text}%0AИтого: ${sum}₽`;
+document.getElementById("tg").href=`https://t.me/shinoalog?text=${text}%0AИтого: ${sum}₽`;
 document.getElementById("wa").href=`https://wa.me/PHONE?text=${text} Итого: ${sum}₽`;
 }
 function toggleTheme(){document.body.classList.toggle("dark")}
@@ -113,3 +113,4 @@ function toggleTheme(){document.body.classList.toggle("dark")}
 
 </body>
 </html>
+
