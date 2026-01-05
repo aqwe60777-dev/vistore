@@ -228,10 +228,18 @@
 .btn:active {
     transform: scale(0.97);
 }
-    .product hr,
 .product::before,
+.product::after,
+.product hr,
 .product img {
     border: none !important;
+}
+
+.product::before {
+    display: none !important;
+}
+    .product img {
+    margin-top: 12px;
 }
   </style>
 </head>
@@ -384,6 +392,7 @@
 
 </body>
 </html>
+
 
 
 
