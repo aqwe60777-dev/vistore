@@ -329,7 +329,7 @@ function openCheckout(){
 if(!cart.length)return error('Корзина пуста');
 if(!phone.value||!address.value||!email.value)return error('Заполните все поля');
 hide('cart');show('checkout');
-let sum=0,html='';
+let sum=0,html='';                    
 cart.forEach(i=>{
 sum+=i.price*i.qty;
 html+=`<div class="cart-item">${i.name} ×${i.qty}<strong>${(i.price*i.qty).toLocaleString()} ₽</strong></div>`;
@@ -352,4 +352,3 @@ render();
 
 </body>
 </html>
-
